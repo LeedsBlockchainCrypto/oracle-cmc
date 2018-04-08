@@ -4,7 +4,7 @@ This is a simple example of how an oracle can work.  It just injects the CoinMar
 
 I have 2 accounts (accoutns[0] and accounts[1]) in my wallet 
 
-accounts[0] is the owner of the contract therefore it can be the only account that can call the setBTCCap function in CMCOracle.sol.
+accounts[0] is the owner of the contract therefore it can be the only account that can call the setMarketCap function in CMCOracle.sol.
 
 So, to work the oracle.js must be running in the background using the geth node of accounts[0]
 
