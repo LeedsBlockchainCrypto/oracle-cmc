@@ -14,6 +14,8 @@ fs.readFile(process.argv[2], 'utf8', function (err, data) {
   pw = data;
 });
 
+var intCalls = 1;
+
 console.log('Starting the Oracle ......');
     
 
@@ -55,9 +57,8 @@ web3.eth.getAccounts((err, accounts) => {
         // Send data back contract on-chain
         oracleInstance.setOracleFee(50000000000, {from: accounts[0]})
         oracleInstance.setMarketCap(btcMarketCap, {from: accounts[0]})
-        console.log('Complete')
-        console.log('Pay')
-        console.log('Paid')
+        console.log('Complete: ' + intCalls++)
+      
       })
     })
   })

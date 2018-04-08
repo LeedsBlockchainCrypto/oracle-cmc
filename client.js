@@ -12,6 +12,8 @@ fs.readFile(process.argv[2], 'utf8', function (err, data) {
   pw = data;
 });
 
+var intRuns = 1;
+
 // Truffle abstraction to interact with our
 // deployed contract
 var oracleContract = contract(OracleContract)
@@ -27,32 +29,44 @@ if (typeof oracleContract.currentProvider.sendAsync !== "function") {
   };
 }
 
-web3.eth.getAccounts((err, accounts) => {
-  oracleContract.deployed()
-  .then((oracleInstance) => { 
 
-    //Unlock the account.  The account has to be the contract owner
-    web3.eth.personal.unlockAccount(accounts[1], pw, 86400); 
-
-    // Our promises
-    const oraclePromises = [
-      oracleInstance.marketCap(),  // Get currently stored BTC Cap
-      oracleInstance.updateMarketCap({from: accounts[1], value: 50000000000}),  // Request oracle to update the information
-      oracleInstance.getBalance()
-     ]
-
-    // Map over all promises
-    Promise.all(oraclePromises)
-    .then((result) => {
-      console.log('Old Market Cap: ' + result[0])
-      console.log('Requesting Oracle to update CMC Information...')
-      console.log('Balance: ' + result[2])
+function loopTest () {                    //  create a loop function
+  setTimeout(function () {                //  call a 30s setTimeout when the loop is called
+    web3.eth.getAccounts((err, accounts) => {
+      oracleContract.deployed()
+      .then((oracleInstance) => { 
+    
+        //Unlock the account.  The account has to be the contract owner
+        web3.eth.personal.unlockAccount(accounts[1], pw, 86400); 
+    
+        // Our promises
+        const oraclePromises = [
+          oracleInstance.marketCap(),  // Get currently stored BTC Cap
+          oracleInstance.updateMarketCap({from: accounts[1], value: 50000000000}),  // Request oracle to update the information
+          oracleInstance.getBalance()
+        ]
+    
+        // Map over all promises
+        Promise.all(oraclePromises)
+        .then((result) => {
+          console.log('Old Market Cap: ' + result[0])
+          console.log('Requesting Oracle to update CMC Information...')
+          console.log('Balance: ' + result[2])
+          console.log('Runs: ' + intRuns)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+      })
+      .catch((err) => {
+        console.log(err)
+      })
     })
-    .catch((err) => {
-      console.log(err)
-    })
-  })
-  .catch((err) => {
-    console.log(err)
-  })
-})
+    intRuns++;                  //  increment the counter
+    if (intRuns < 50000) {      //  if the counter < 50000, call the loop function
+      loopTest();               //  ..  again which will trigger another 
+    }                           //  ..  setTimeout()
+  }, 30000)
+}
+
+loopTest();                    //  start the loop
