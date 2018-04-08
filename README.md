@@ -1,6 +1,6 @@
 # oracle-cmc
 
-This is a simple example of how an oracle can work.  It just injects the CoinMarketCap MarketCap
+This is a simple example of how an oracle can work.  It just injects the CoinMarketCap MarketCap into the CMCOracle contract
 
 I have 2 accounts (accoutns[0] and accounts[1]) in my wallet 
 
