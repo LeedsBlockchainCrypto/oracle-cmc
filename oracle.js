@@ -42,7 +42,7 @@ web3.eth.getAccounts((err, accounts) => {
     // With a callback function  
     
     //Unlock the account.  The account has to be the contract owner 
-    web3.eth.personal.unlockAccount(accounts[0], pw);
+    web3.eth.personal.unlockAccount(accounts[0], pw, 86400);
   
     oracleInstance.CallbackMarketCap()
     .watch((err, event) => {

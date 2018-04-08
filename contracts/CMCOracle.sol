@@ -11,12 +11,15 @@ contract CMCOracle {
     
     mapping (address => uint) public purchasers;
 
-    // Callback function
-    event CallbackMarketCap();
-
     function CMCOracle() public {
         owner = msg.sender;
     }
+    
+    // Callback function
+    event CallbackMarketCap();
+
+    function () public payable {
+    } 
 
     function updateMarketCap() public payable {
         
@@ -41,5 +44,10 @@ contract CMCOracle {
         // If it isn't sent by a trusted oracle a.k.a ourselves, ignore it
         require(msg.sender == owner);
         oracleFee = fee;
+    }
+
+    function withdrawEther() public {
+        require(msg.sender == owner);
+        msg.sender.transfer(this.balance);
     }
 }
