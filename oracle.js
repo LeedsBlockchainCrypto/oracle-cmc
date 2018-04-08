@@ -14,6 +14,8 @@ fs.readFile(process.argv[2], 'utf8', function (err, data) {
   pw = data;
 });
 
+console.log('Starting the Oracle ......');
+    
 
 // Truffle abstraction to interact with our
 // deployed contract
@@ -40,21 +42,22 @@ web3.eth.getAccounts((err, accounts) => {
     // With a callback function  
     
     //Unlock the account.  The account has to be the contract owner 
-    web3.eth.personal.unlockAccount(accounts[0], pw, 1500);
-
-    console.log('Account before CallbackGetBTCCap: ' + accounts[0].toString())
-    oracleInstance.CallbackGetBTCCap()
+    web3.eth.personal.unlockAccount(accounts[0], pw);
+  
+    oracleInstance.CallbackMarketCap()
     .watch((err, event) => {
-      // Fetch data
-      console.log('Account after CallbackGetBTCCap: ' + accounts[0].toString())
-         // and update it into the contract
+      // Fetch data and update it into the contract
+      console.log('Fetching the Market Cap');
       fetch.fetchUrl('https://api.coinmarketcap.com/v1/global/', (err, m, b) => {
         const cmcJson = JSON.parse(b.toString())
         const btcMarketCap = parseInt(cmcJson.total_market_cap_usd)
 
         // Send data back contract on-chain
-        console.log('Account: ' + accounts[0].toString())
-        oracleInstance.setBTCCap(btcMarketCap, {from: accounts[0]})
+        oracleInstance.setOracleFee(50000000000, {from: accounts[0]})
+        oracleInstance.setMarketCap(btcMarketCap, {from: accounts[0]})
+        console.log('Complete')
+        console.log('Pay')
+        console.log('Paid')
       })
     })
   })

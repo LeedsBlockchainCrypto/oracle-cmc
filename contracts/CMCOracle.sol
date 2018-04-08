@@ -3,31 +3,43 @@ pragma solidity ^0.4.19;
 
 contract CMCOracle {
     // Contract owner
-    address public owner;
-
+    address owner;
+    
     // BTC Marketcap Storage
-    uint public btcMarketCap;
+    uint public marketCap;
+    uint256 public oracleFee;
+    
+    mapping (address => uint) public purchasers;
 
     // Callback function
-    event CallbackGetBTCCap();
+    event CallbackMarketCap();
 
     function CMCOracle() public {
         owner = msg.sender;
     }
 
-    function updateBTCCap() public {    
+    function updateMarketCap() public payable {
+        
+        if (msg.value < oracleFee) return;     
         // Calls the callback function
-        CallbackGetBTCCap();
+        purchasers[msg.sender]++; 
+        CallbackMarketCap();              
     }
 
-    function setBTCCap(uint cap) public {
+    function setMarketCap(uint cap) public {
         // If it isn't sent by a trusted oracle
         // a.k.a ourselves, ignore it
         require(msg.sender == owner);
-        btcMarketCap = cap;
+        marketCap = cap;
     }
 
-    function getBTCCap() public constant returns (uint) {
-        return btcMarketCap;
+    function getBalance() public view returns (uint256) {
+        return address(this).balance;
+    }
+
+    function setOracleFee(uint256 fee) public {
+        // If it isn't sent by a trusted oracle a.k.a ourselves, ignore it
+        require(msg.sender == owner);
+        oracleFee = fee;
     }
 }
