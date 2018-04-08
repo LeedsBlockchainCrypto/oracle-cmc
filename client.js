@@ -4,6 +4,7 @@ var contract = require('truffle-contract')
 var Web3 = require('web3');
 var web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
 
+//Get the password from the command line args.  e.g. node oracle.js ~/Development/pw.txt
 var fs = require('fs');
 var pw = '';
 fs.readFile(process.argv[2], 'utf8', function (err, data) {
@@ -33,6 +34,7 @@ web3.eth.getAccounts((err, accounts) => {
   oracleContract.deployed()
   .then((oracleInstance) => { 
 
+    //Unlock the account.  The account has to be the contract owner
     web3.eth.personal.unlockAccount(accounts[1], pw, 1500); 
 
     // Our promises
