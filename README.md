@@ -13,3 +13,6 @@ Anyone else can call it using client.js
 I've basically taken this turorial and modified it so it worked with the rinkeby development node not testrpc
 
 https://kndrck.co/posts/ethereum_oracles_a_simple_guide/
+
+
+
