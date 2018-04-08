@@ -4,6 +4,13 @@ var contract = require('truffle-contract')
 var Web3 = require('web3');
 var web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
 
+var fs = require('fs');
+var pw = '';
+fs.readFile(process.argv[2], 'utf8', function (err, data) {
+  if (err) throw err;
+  pw = data;
+});
+
 // Truffle abstraction to interact with our
 // deployed contract
 var oracleContract = contract(OracleContract)
@@ -18,15 +25,20 @@ if (typeof oracleContract.currentProvider.sendAsync !== "function") {
     );
   };
 }
-   
+
+
+
+
 web3.eth.getAccounts((err, accounts) => {
   oracleContract.deployed()
   .then((oracleInstance) => { 
 
+    web3.eth.personal.unlockAccount(accounts[1], pw, 1500); 
+
     // Our promises
     const oraclePromises = [
       oracleInstance.getBTCCap(),  // Get currently stored BTC Cap
-      oracleInstance.updateBTCCap({from: accounts[0]})  // Request oracle to update the information
+      oracleInstance.updateBTCCap({from: accounts[1]})  // Request oracle to update the information
      ]
 
     // Map over all promises
