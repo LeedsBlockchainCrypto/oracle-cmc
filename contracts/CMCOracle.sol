@@ -45,8 +45,6 @@ contract CMCOracle is Ownable {
         
     function setMarketCap(uint _marketCap, uint _marketCap24, uint _marketCappercentage, uint _activeCurrencies, uint _activeAssets, uint _activeMarkets,uint _lastUpdate) external payable onlyOwner {
         
-        //MarketCapVals memory marketCapVals = MarketCapVals(_marketCap,_marketCap24,_marketCappercentage,_activeCurrencies,_activeAssets,_activeMarkets,_lastUpdate);
-        
         marketValsStructs[0].marketCap = _marketCap;
         marketValsStructs[0].marketCap24 = _marketCap24;
         marketValsStructs[0].marketCappercentage = _marketCappercentage;

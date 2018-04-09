@@ -25,6 +25,6 @@ Order of run
    update as well (do it before you --reset in truffle)
  
 
-All of this will work on the testrpc instance, however to do a ful test you need to be on proper instance like rinkeby to check the ownershi aspects
+All of this will work on the testrpc instance, however to do a full test you need to be on proper instance like rinkeby to check the ownership aspects
 
 
