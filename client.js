@@ -50,13 +50,24 @@ function loopTest () {                    //  create a loop function
         // Map over all promises
         Promise.all(oraclePromises)
         .then((result) => {
+          
+          //Display Date format
+          var date = new Date( result[0][6] * 1000);
+          var year = date.getFullYear();
+          var month = date.getMonth() + 1;
+          var day = date.getDate();
+          var hours = date.getHours();
+          var minutes = "0" + date.getMinutes();
+          var seconds = "0" + date.getSeconds();
+          var formattedTime = day + '-' + month + '-' + year + '  ' + hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+          
           console.log('Market Cap Values: ' + 'Market Cap: ' + 
             result[0][0]+ ' Market Cap 24hr: ' + 
             result[0][1]+ ' Market Cap %: ' + 
             result[0][2]+ ' Active Currencies: ' + 
             result[0][3]+ ' Active Assets: ' + 
             result[0][4]+ ' Active Markets: '  + 
-            result[0][5] + ' Last Update: '  + result[0][6])
+            result[0][5] + ' Last Update: '  + formattedTime)
 
           feeVal = result[3];
           console.log('Fee: ' + feeVal); 

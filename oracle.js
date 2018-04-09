@@ -62,8 +62,24 @@ web3.eth.getAccounts((err, accounts) => {
         
         oracleInstance.setMarketCap(marketCap, marketCap24, marketCappercentage, activeCurrencies, activeAssets, activeMarkets, lastUpdate, {from: accounts[0], gas: 300000, value: 100000})
         
-        console.log('Complete: ' + intCalls++ + ': ' + marketCap24+ ': ' + marketCappercentage+ ': ' + activeCurrencies+ ': ' + activeAssets+ ': ' + activeMarkets+ ': '  + lastUpdate )
-      
+
+        //Display Date format
+        var date = new Date( lastUpdate * 1000);
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        var day = date.getDate()
+        var hours = date.getHours();
+        var minutes = "0" + date.getMinutes();
+        var seconds = "0" + date.getSeconds();
+        var formattedTime = day + '-' + month + '-' + year + '  ' + hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+                
+        console.log('Market Cap Values: ' + 'Market Cap: ' + 
+          marketCap + ' Market Cap 24hr: ' + 
+          marketCap24 + ' Market Cap %: ' + 
+          marketCappercentage + ' Active Currencies: ' + 
+          activeCurrencies + ' Active Assets: ' + 
+          activeAssets + ' Active Markets: '  + 
+          activeMarkets + ' Last Update: '  + formattedTime)
       })
     })
   })
