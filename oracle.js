@@ -1,3 +1,4 @@
+
 var fetch = require('fetch')
 var OracleContract = require('./build/contracts/CMCOracle.json')
 var contract = require('truffle-contract')
@@ -17,7 +18,6 @@ fs.readFile(process.argv[2], 'utf8', function (err, data) {
 var intCalls = 1;
 
 console.log('Starting the Oracle ......');
-    
 
 // Truffle abstraction to interact with our
 // deployed contract
@@ -45,19 +45,34 @@ web3.eth.getAccounts((err, accounts) => {
     
     //Unlock the account.  The account has to be the contract owner 
     web3.eth.personal.unlockAccount(accounts[0], pw, 86400);
+    web3.eth.personal.unlockAccount(accounts[1], pw, 86400);
   
+
+    //List of Valid users
+    //oracleInstance.setValidPurchaser(accounts[0], "Andy", "Thomas", true, {from: accounts[0]});
+    //oracleInstance.setValidPurchaser(accounts[1], "Mike", "Smith", true, {from: accounts[0]});
+
+
     oracleInstance.CallbackMarketCap()
     .watch((err, event) => {
       // Fetch data and update it into the contract
       console.log('Fetching the Market Cap');
       fetch.fetchUrl('https://api.coinmarketcap.com/v1/global/', (err, m, b) => {
         const cmcJson = JSON.parse(b.toString())
-        const btcMarketCap = parseInt(cmcJson.total_market_cap_usd)
+        const marketCap = parseInt(cmcJson.total_market_cap_usd)
+        const marketCap24 = parseInt(cmcJson.total_24h_volume_usd)
+        const marketCappercentage = parseInt(cmcJson.bitcoin_percentage_of_market_cap)
+        const activeCurrencies = parseInt(cmcJson.active_currencies)
+        const activeAssets = parseInt(cmcJson.active_assets)
+        const activeMarkets = parseInt(cmcJson.active_markets)
+        const lastUpdate = parseInt(cmcJson.last_updated)
 
         // Send data back contract on-chain
         oracleInstance.setOracleFee(50000000000, {from: accounts[0]})
-        oracleInstance.setMarketCap(btcMarketCap, {from: accounts[0]})
-        console.log('Complete: ' + intCalls++)
+        
+        oracleInstance.setMarketCap(marketCap, marketCap24, marketCappercentage, activeCurrencies, activeAssets, activeMarkets, lastUpdate, {from: accounts[0], gas: 300000, value: 100000})
+        
+        console.log('Complete: ' + intCalls++ + ': ' + marketCap24+ ': ' + marketCappercentage+ ': ' + activeCurrencies+ ': ' + activeAssets+ ': ' + activeMarkets+ ': '  + lastUpdate )
       
       })
     })

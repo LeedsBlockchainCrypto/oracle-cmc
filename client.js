@@ -37,11 +37,11 @@ function loopTest () {                    //  create a loop function
       .then((oracleInstance) => { 
     
         //Unlock the account.  The account has to be the contract owner
-        web3.eth.personal.unlockAccount(accounts[1], pw, 86400); 
+        web3.eth.personal.unlockAccount(accounts[1], pw, 86400);     
     
         // Our promises
         const oraclePromises = [
-          oracleInstance.marketCap(),  // Get currently stored BTC Cap
+          oracleInstance.getMarketCap(),  // Get currently stored BTC Cap
           oracleInstance.updateMarketCap({from: accounts[1], value: 50000000000}),  // Request oracle to update the information
           oracleInstance.getBalance()
         ]
@@ -49,8 +49,13 @@ function loopTest () {                    //  create a loop function
         // Map over all promises
         Promise.all(oraclePromises)
         .then((result) => {
-          console.log('Old Market Cap: ' + result[0])
-          console.log('Requesting Oracle to update CMC Information...')
+          console.log('Market Cap Values: ' + 'Market Cap: ' + 
+            result[0][0]+ ' Market Cap 24hr: ' + 
+            result[0][1]+ ' Market Cap %: ' + 
+            result[0][2]+ ' Active Currencies: ' + 
+            result[0][3]+ ' Active Assets: ' + 
+            result[0][4]+ ' Active Markets: '  + 
+            result[0][5] + ' Last Update: '  + result[0][6])
           console.log('Balance: ' + result[2])
           console.log('Runs: ' + intRuns++)
         })

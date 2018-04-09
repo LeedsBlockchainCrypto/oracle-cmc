@@ -26,14 +26,14 @@ web3.eth.getAccounts((err, accounts) => {
 
     // Our promises
     const oraclePromises = [
-      oracleInstance.marketCap(),  // Get currently stored BTC Cap
+      oracleInstance.getmarketCap(),  // Get currently stored BTC Cap
       oracleInstance.oracleFee()  // Get currently stored BTC Cap
     ]
 
     // Map over all promises
     Promise.all(oraclePromises)
     .then((result) => {
-      console.log('BTC Market Cap: ' + result[0])
+      console.log('BTC Market Cap: ' + result[0][0])
       console.log('Oracle Fee: ' + result[1])
     })
     .catch((err) => {
