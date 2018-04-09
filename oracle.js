@@ -1,4 +1,5 @@
 
+
 var fetch = require('fetch')
 var OracleContract = require('./build/contracts/CMCOracle.json')
 var contract = require('truffle-contract')
@@ -62,7 +63,6 @@ web3.eth.getAccounts((err, accounts) => {
         
         oracleInstance.setMarketCap(marketCap, marketCap24, marketCappercentage, activeCurrencies, activeAssets, activeMarkets, lastUpdate, {from: accounts[0], gas: 300000, value: 100000})
         
-
         //Display Date format
         var date = new Date( lastUpdate * 1000);
         var year = date.getFullYear();
@@ -73,6 +73,7 @@ web3.eth.getAccounts((err, accounts) => {
         var seconds = "0" + date.getSeconds();
         var formattedTime = day + '-' + month + '-' + year + '  ' + hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
                 
+        console.log("Number of calls since last reset: " + intCalls++)
         console.log('Market Cap Values: ' + 'Market Cap: ' + 
           marketCap + ' Market Cap 24hr: ' + 
           marketCap24 + ' Market Cap %: ' + 
