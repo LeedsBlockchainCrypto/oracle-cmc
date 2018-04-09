@@ -29,6 +29,23 @@ if (typeof oracleContract.currentProvider.sendAsync !== "function") {
   };
 }
 
+var feeVal = 100000;
+
+/*
+web3.eth.getAccounts((err, accounts) => {
+  oracleContract.deployed()
+  .then((oracleInstance) => { 
+    
+    // Our promises
+    const oraclePromises = [oracleInstance.getOracleFee()]
+    Promise.all(oraclePromises)
+    .then((result) => {
+      feeVal = result[0] 
+      console.log('Fee: ' + feeVal) 
+    })  
+  })
+})
+*/ 
 
 function loopTest () {                    //  create a loop function
   setTimeout(function () {                //  call a 30s setTimeout when the loop is called
@@ -38,12 +55,12 @@ function loopTest () {                    //  create a loop function
     
         //Unlock the account.  The account has to be the contract owner
         web3.eth.personal.unlockAccount(accounts[1], pw, 86400);     
-    
         // Our promises
         const oraclePromises = [
           oracleInstance.getMarketCap(),  // Get currently stored BTC Cap
-          oracleInstance.updateMarketCap({from: accounts[1], value: 50000000000}),  // Request oracle to update the information
-          oracleInstance.getBalance()
+          oracleInstance.updateMarketCap({from: accounts[1], value: feeVal}),  // Request oracle to update the information
+          oracleInstance.getBalance(),
+          oracleInstance.getOracleFee()
         ]
     
         // Map over all promises
@@ -56,6 +73,9 @@ function loopTest () {                    //  create a loop function
             result[0][3]+ ' Active Assets: ' + 
             result[0][4]+ ' Active Markets: '  + 
             result[0][5] + ' Last Update: '  + result[0][6])
+
+          feeVal = result[3];
+          console.log('Fee: ' + feeVal); 
           console.log('Balance: ' + result[2])
           console.log('Runs: ' + intRuns++)
         })

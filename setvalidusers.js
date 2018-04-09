@@ -15,7 +15,7 @@ fs.readFile(process.argv[2], 'utf8', function (err, data) {
   pw = data;
 });
 
-console.log('Starting the Oracle ......');
+console.log('Adding addresses to the KYC list ......');
 
 // Truffle abstraction to interact with our
 // deployed contract
@@ -49,9 +49,8 @@ web3.eth.getAccounts((err, accounts) => {
     console.log('Complete: ' + accounts[0])
 
     //List of Valid users
-    oracleInstance.setValidPurchaser(accounts[0], "Andy", "Thomas", true, {from: accounts[0], gas: 3000000});    
-    oracleInstance.setValidPurchaser(accounts[1], "Mike", "Smith", true, {from: accounts[0], gas: 3000000});
-  
+    oracleInstance.setValidPurchaser(accounts[0], "Andy", "Thomas", true, {from: accounts[0], gas: 300000, value: 1000000});    
+    oracleInstance.setValidPurchaser(accounts[1], "Mike", "Smith", true, {from: accounts[0], gas: 300000, value: 1000000});
     
     console.log('Complete: ')
    

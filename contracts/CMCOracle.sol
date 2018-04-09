@@ -89,6 +89,10 @@ contract CMCOracle is Ownable {
         oracleFee = fee;
     }
     
+    function getOracleFee() public view returns(uint256) {
+        return (oracleFee);
+    }
+        
     function updateMarketCap() public payable {        
         if (msg.value < oracleFee) return;     
         // Calls the callback function         
@@ -111,4 +115,6 @@ contract CMCOracle is Ownable {
             marketValsStructs[0].activeMarkets, 
             marketValsStructs[0].lastUpdate);
     }
+
+
 }
