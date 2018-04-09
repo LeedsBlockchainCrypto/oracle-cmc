@@ -31,22 +31,6 @@ if (typeof oracleContract.currentProvider.sendAsync !== "function") {
 
 var feeVal = 100000;
 
-/*
-web3.eth.getAccounts((err, accounts) => {
-  oracleContract.deployed()
-  .then((oracleInstance) => { 
-    
-    // Our promises
-    const oraclePromises = [oracleInstance.getOracleFee()]
-    Promise.all(oraclePromises)
-    .then((result) => {
-      feeVal = result[0] 
-      console.log('Fee: ' + feeVal) 
-    })  
-  })
-})
-*/ 
-
 function loopTest () {                    //  create a loop function
   setTimeout(function () {                //  call a 30s setTimeout when the loop is called
     web3.eth.getAccounts((err, accounts) => {

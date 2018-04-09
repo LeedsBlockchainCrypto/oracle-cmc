@@ -14,7 +14,7 @@ fs.readFile(process.argv[2], 'utf8', function (err, data) {
   pw = data;
 });
 
-console.log('Adding addresses to the KYC list ......');
+console.log('Setting the fee to ' + process.argv[3] + '......');
 
 // Truffle abstraction to interact with our
 // deployed contract
@@ -43,14 +43,9 @@ web3.eth.getAccounts((err, accounts) => {
     
     //Unlock the account.  The account has to be the contract owner 
     web3.eth.personal.unlockAccount(accounts[0], pw, 86400);
-    web3.eth.personal.unlockAccount(accounts[1], pw, 86400);
-  
-    console.log('Complete: ' + accounts[0])
-
+    
     //Set the Fee  from a command line param passed in after the password
     oracleInstance.setOracleFee(process.argv[3],{from: accounts[0], gas: 300000});    
-    
-    console.log('Complete: ')
    
   })
   .catch((err) => {
