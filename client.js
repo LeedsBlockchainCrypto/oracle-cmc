@@ -52,7 +52,7 @@ function loopTest () {                    //  create a loop function
           console.log('Old Market Cap: ' + result[0])
           console.log('Requesting Oracle to update CMC Information...')
           console.log('Balance: ' + result[2])
-          console.log('Runs: ' + intRuns)
+          console.log('Runs: ' + intRuns++)
         })
         .catch((err) => {
           console.log(err)
@@ -62,7 +62,6 @@ function loopTest () {                    //  create a loop function
         console.log(err)
       })
     })
-    intRuns++;                  //  increment the counter
     if (intRuns < 50000) {      //  if the counter < 50000, call the loop function
       loopTest();               //  ..  again which will trigger another 
     }                           //  ..  setTimeout()

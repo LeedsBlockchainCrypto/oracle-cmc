@@ -1,12 +1,14 @@
 pragma solidity ^0.4.19;
 
+import "./ownable.sol";
+
 
 contract CMCOracle {
     // Contract owner
     address owner;
     
     // BTC Marketcap Storage
-    uint public marketCap;
+    uint private marketCap;
     uint256 public oracleFee;
     
     mapping (address => uint) public purchasers;
