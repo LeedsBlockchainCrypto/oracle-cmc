@@ -59,7 +59,7 @@ contract CMCOracle is Ownable {
         msg.sender.transfer(address(this).balance);
     }
 
-    function setValidPurchaser(address _validAddress, string _fName, string _lName, bool _isValid) external payable onlyOwner {
+    function setValidPurchaser(address _validAddress, string _fName, string _lName, bool _isValid) external onlyOwner {
         
         KYC storage kycClient = kyc[_validAddress];
         

@@ -43,11 +43,13 @@ web3.eth.getAccounts((err, accounts) => {
     
     
     //Unlock the account.  The account has to be the contract owner 
-    web3.eth.personal.unlockAccount(accounts[0], pw, 86400);
+    //Unlock the account.  The account has to be the contract owner
+    web3.eth.personal.unlockAccount(accounts[0], pw, 86400);     
+    web3.eth.personal.unlockAccount(accounts[1], pw, 86400);     
   
     //List of Valid users
-    oracleInstance.setValidPurchaser(accounts[0], "Andy", "Thomas", true, {from: accounts[0], gas: 300000, value: 1000000});    
-    oracleInstance.setValidPurchaser(accounts[1], "Mike", "Smith", true, {from: accounts[0], gas: 300000, value: 1000000});
+    oracleInstance.setValidPurchaser(accounts[0], "Andy", "Thomas", true, {from: accounts[0], gas: 300000});    
+    oracleInstance.setValidPurchaser(accounts[1], "Mike", "Smith", true, {from: accounts[0], gas: 300000});
       
   })
   .catch((err) => {
